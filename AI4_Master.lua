@@ -27,7 +27,7 @@ function initAuton(x, y, id, macroFactor, timeResolution)
                 list[key] = 0
             end
         end
-        dofile([[C:/Master/RANA/lua_agents/AI4_Automaton.lua]])
+        dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
         initAgent(10+((id-1)%3)*distance, 10, id, macroFactor, timeResolution, list)
     end
 
@@ -37,7 +37,7 @@ function initAuton(x, y, id, macroFactor, timeResolution)
                 list[key] = 0
             end
         end
-        dofile([[C:/Master/RANA/lua_agents/AI4_Automaton.lua]])
+        dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
         initAgent(10+((id-1)%3)*distance, 10+distance, id, macroFactor, timeResolution, list)
     end
 
@@ -47,7 +47,7 @@ function initAuton(x, y, id, macroFactor, timeResolution)
                 list[key] = 0
             end
         end
-        dofile([[C:/Master/RANA/lua_agents/AI4_Automaton.lua]])
+        dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
         initAgent(10+((id-1)%3)*distance, 10+(distance*2), id, macroFactor, timeResolution, list)
     end
 
