@@ -6,6 +6,9 @@ macroF = 0	--simulations macrofactor
 timeRes = 0	--simulations time resolution.
 
 nodeList = {0,0,0,0}
+tempList = {}
+
+initialState = true
 
 timePeriod = 1000
 halfPeriod_1 = 500
@@ -43,7 +46,7 @@ function initAgent(x, y, id, macroFactor, timeResolution, list)
     ID = id
     macroF = macroFactor
     timeRes = timeResolution
-    nodeList = list
+    tempList = list
 
     colorAutomaton()
 
@@ -62,15 +65,50 @@ end
 -- Event Handling:
 function handleEvent(origX, origY, origID, origDesc, origTable)
     --make a response:
-    if ID == 1 then
+    if ID == 9 then
         l_debug(ID.." : "..origDesc .. " : " .. origID )
     end
+
+    --1,2,3,4,5,6,7,8,9 virker
+
+    if origDesc == "initialEvent" and l_distance(posX, posY, origX, origY) == 20 then
+        for i in pairs(nodeList) do
+            if tempList[i] == origID then
+                nodeList[i] = origID
+                break
+            end
+        end
+    end
+
     return 0,0,0,"null"
 end
 
 --Determine whether or not this Auton will initiate an event.
 function initiateEvent()
+    if initialState == true then
+
+        s_calltable = "empty"
+        desc = "initialEvent"
+        propagationSpeed = 50000
+
+        targetID = 0;
+
+        initialState = false
+
+        return propagationSpeed, s_calltable, desc, targetID
+    end
+
+    if ID == 9 then
+        for i in pairs(nodeList) do
+        print(nodeList[i])
+        end
+    end
+
+    --1,2,3,4,5,6,7,8,9 virker
+
     switchCircuit()
+
+    ----[[
 
     if direction == "east&west" then
         key = l_getMersenneInteger(1,2)
@@ -93,6 +131,8 @@ function initiateEvent()
 
         return propagationSpeed, s_calltable, desc, targetID
     end
+
+    --]]
 
     return 0,0,0,"null"
 end

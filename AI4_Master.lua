@@ -4,7 +4,9 @@ Planet_Green    = 208
 Planet_Blue     = 120
 
 distance = 20
-grid = 3
+gridSize = 3 -- The Grid Size. 3 is for a 3x3 grid, set the number of agents to 9 (3x3).
+lineNr = 1
+
 
 -- Init of the lua Test_Master, function called upon initilization of the LUA auton:
 function initAuton(x, y, id, macroFactor, timeResolution)
@@ -13,44 +15,22 @@ function initAuton(x, y, id, macroFactor, timeResolution)
 
     if id == 1 then
         generatePlanet(height, width)
+        l_addSharedNumber("lineKey",lineNr)
         --dofile([[C:/Master/RANA/lua_agents/AI4_Automaton.lua]])
         --initAgent(10, 10, id, macroFactor, timeResolution)
     end
 
-    --if id
+    lineNr = l_getSharedNumber("lineKey")
 
-    list = {id-1, id+1, id-grid, id+grid}
+    list = {id-1, id+1, id-gridSize, id+gridSize}
 
-    if id > 0 and id < grid+1 then
-        for key, value in pairs(list) do
-            if value < 0 or (((value%grid)-1 == 0) and key == 2 )  then
-                list[key] = 0
-            end
-        end
-        dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
-        initAgent(10+((id-1)%3)*distance, 10, id, macroFactor, timeResolution, list)
+    dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
+    initAgent(10+((id-1)%gridSize)*distance, 10+(distance*(lineNr-1)), id, macroFactor, timeResolution, list)
+
+    if (id % gridSize) == 0 then
+        lineNr = l_getSharedNumber("lineKey")
+        l_addSharedNumber("lineKey",(lineNr+1))
     end
-
-    if id > 3 and id < 7 then
-        for key, value in pairs(list) do
-            if (((value%3) == 0) and key == 1 ) or (((value%3)-1 == 0) and key == 2 ) then
-                list[key] = 0
-            end
-        end
-        dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
-        initAgent(10+((id-1)%3)*distance, 10+distance, id, macroFactor, timeResolution, list)
-    end
-
-    if id > 6 and id < 10 then
-        for key, value in pairs(list) do
-            if value > 9 or (((value%3) == 0) and key == 1 ) or (((value%3)-1 == 0) and key == 2 ) then
-                list[key] = 0
-            end
-        end
-        dofile([[C:/Master/GitHub/LUA_Agents/AI4_Automaton.lua]])
-        initAgent(10+((id-1)%3)*distance, 10+(distance*2), id, macroFactor, timeResolution, list)
-    end
-
 end
 
 function generatePlanet(_height, _width)
